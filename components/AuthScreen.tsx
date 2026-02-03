@@ -55,36 +55,51 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onAuth }) => {
     }
   };
 
+  const handleTesterMode = () => {
+    const testerUser: User = {
+      id: 'tester-999',
+      name: 'Zentic Tester',
+      email: 'tester@zentic.com',
+      role: 'Jefe',
+      avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=tester'
+    };
+    onAuth(testerUser);
+  };
+
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Decoración de fondo */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-teal-500/10 blur-[120px] rounded-full"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 blur-[120px] rounded-full"></div>
+
+      <div className="max-w-md w-full bg-white/95 backdrop-blur-xl rounded-[2.5rem] shadow-2xl p-10 border border-white/20 relative z-10">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-black bg-gradient-to-r from-teal-500 to-blue-600 bg-clip-text text-transparent mb-2">Zentic Teams</h1>
-          <p className="text-slate-400 text-sm font-medium">Tu oficina inteligente, estés donde estés.</p>
+          <h1 className="text-4xl font-black bg-gradient-to-br from-teal-400 via-blue-600 to-indigo-700 bg-clip-text text-transparent mb-2">Zentic Teams</h1>
+          <p className="text-slate-500 text-sm font-medium">Plataforma de Alto Rendimiento</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-xs font-bold rounded-r-lg animate-in fade-in slide-in-from-top-1">
-            ⚠️ {error}
+          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-xs font-bold rounded-r-xl animate-in fade-in slide-in-from-top-1">
+            {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
             <div className="space-y-1">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nombre de Usuario Único</label>
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Nombre Completo</label>
               <input 
                 type="text" 
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-teal-500 outline-none transition-all font-medium"
-                placeholder="Ej: Alejandro_Z"
+                placeholder="Ej: Alejandro Zentic"
                 required
               />
             </div>
           )}
           <div className="space-y-1">
-            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Corporativo</label>
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email</label>
             <input 
               type="email" 
               value={email}
@@ -111,19 +126,26 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onAuth }) => {
             disabled={loading}
             className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black hover:bg-teal-600 transition-all shadow-xl shadow-slate-900/10 active:scale-95 disabled:opacity-50 mt-4"
           >
-            {loading ? 'Procesando...' : (isLogin ? 'Entrar a Zentic' : 'Crear mi oficina')}
+            {loading ? 'Sincronizando...' : (isLogin ? 'Iniciar Sesión' : 'Crear Cuenta')}
           </button>
         </form>
 
-        <div className="mt-8 pt-6 border-t border-slate-50 flex flex-col items-center gap-2">
-          <p className="text-xs text-slate-400 font-medium">
-            {isLogin ? '¿Primera vez en Zentic Teams?' : '¿Ya tienes un equipo?'}
-          </p>
+        <div className="mt-8 pt-6 border-t border-slate-100 space-y-4">
+          <div className="flex flex-col items-center gap-2">
+            <button 
+              onClick={() => { setIsLogin(!isLogin); setError(''); }}
+              className="text-teal-600 font-bold text-sm hover:text-teal-700 transition-colors"
+            >
+              {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya eres miembro? Accede'}
+            </button>
+          </div>
+
+          {/* BOTÓN MODO TESTER */}
           <button 
-            onClick={() => { setIsLogin(!isLogin); setError(''); }}
-            className="text-teal-600 font-black text-sm hover:underline underline-offset-4"
+            onClick={handleTesterMode}
+            className="w-full py-3 bg-amber-50 text-amber-600 border border-amber-200 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-amber-100 transition-all flex items-center justify-center gap-2"
           >
-            {isLogin ? 'Empieza gratis hoy' : 'Inicia sesión aquí'}
+            <span className="text-base">🛠️</span> Acceso Modo Tester
           </button>
         </div>
       </div>

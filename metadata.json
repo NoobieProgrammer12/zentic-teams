@@ -1,0 +1,8 @@
+{
+  "name": "Zentic Teams",
+  "description": "Una plataforma integral de colaboración para equipos con gestión de tareas, roles, calendario, analíticas de eficiencia y un asistente de IA avanzado para optimizar la productividad laboral.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
